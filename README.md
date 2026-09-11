@@ -1,9 +1,10 @@
-# Solar Array Performance Report — GitHub Pages site
+# Home Energy & Solar Performance Report — GitHub Pages site
 
 This folder is a ready-to-publish, single-page site: a home page with the
-full write-up, an embedded interactive dashboard, and a sources/authorship
-section — all on one scrolling page. No coding required to get it live —
-just follow the steps below.
+full write-up, an embedded interactive dashboard (with a Solar Performance
+tab and an Energy Bills & Savings tab), and a sources/authorship section —
+all on one scrolling page. No coding required to get it live — just follow
+the steps below.
 
 ## 1. Create a repository on GitHub
 
@@ -47,8 +48,8 @@ within a minute or two — no separate "publish" step.
 
 | File | Purpose |
 |---|---|
-| `index.md` | The whole site — intro, full write-up, embedded dashboard, sources, and authorship, all on one scrolling page |
-| `dashboard.html` | The interactive chart dashboard, embedded partway down the home page in an `<iframe>`. Kept as raw HTML so the hover/interactive charts keep working (Markdown can't run the JavaScript charts need) |
+| `index.md` | The whole site — intro, full write-up for both the solar analysis and the energy-bill analysis, embedded dashboard, sources, and authorship, all on one scrolling page |
+| `dashboard.html` | The interactive chart dashboard, embedded partway down the home page in an `<iframe>`. Has two tabs — Solar Performance and Energy Bills & Savings. Kept as raw HTML so the hover/interactive charts keep working (Markdown can't run the JavaScript charts need) |
 | `_config.yml` | Tells GitHub Pages to use a built-in theme ("Cayman") so the site has a real look instead of plain unstyled text |
 
 A note on the embed: `index.md` includes `dashboard.html` in an `<iframe>`

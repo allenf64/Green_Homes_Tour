@@ -3,26 +3,44 @@ layout: default
 title: Home
 ---
 
-## One year of solar production, checked against reality
+## A year of solar production and home energy bills, checked against reality
 
-This page walks through a year of daily output from a 14-panel, 6.02 kW
-rooftop solar array in Denver, Colorado — checked against two independent
-sources of truth: the physics of where the sun actually was each day, and
-NASA's satellite-measured weather for that same period.
+This page covers two connected things for the same home in the Denver,
+Colorado metro area: a year of daily output from a 14-panel, 6.02 kW rooftop
+solar array — checked against the physics of where the sun actually was each
+day and NASA's satellite-measured weather — and a year of the actual utility
+bills that solar array helped shrink.
+
+The interactive dashboard below has two tabs: **Solar Performance** and
+**Energy Bills & Savings**. Everything on this page is written for a general
+reader — no engineering or utility-industry background assumed.
 
 ### The short version
+
+**Solar performance:**
 
 - **Performance ratio: 74.3%** — a normal, healthy number for a real system.
 - **18 days** underperformed even after accounting for that day's actual weather.
 - Several of those days land the day *after* a heavy storm — a likely sign of
   snow sitting on the panels rather than a hardware problem.
 
+**Energy bills:**
+
+- **78% of the year's entire energy bill ($629 of $803) was for natural gas
+  heat** — electricity was nearly a non-issue, cost-wise.
+- **December + January alone were 31% of the annual bill** — the coldest
+  months, and the clearest target for any insulation or weatherization
+  investment.
+- **The solar array covers virtually all of the home's own electricity use**
+  — the most ever drawn from the grid in a single month was 93 kWh, against
+  as much as 4,685 kWh sent back to the grid in a good month.
+
 The full interactive dashboard is embedded further down this page. Here's
-how it was built.
+how each half was built.
 
 ---
 
-## How the analysis was built, step by step — in plain English
+## Part 1: Solar performance — how the analysis was built, step by step
 
 You gave me one year of daily solar production numbers and asked how much of
 that was normal weather versus something worth checking on the roof. Here's
@@ -148,12 +166,46 @@ this.
 
 ---
 
+## Part 2: Energy bills — how the analysis was built
+
+You also provided 12 months of Xcel Energy statements (electric + natural
+gas, September 2025 through August 2026) and asked where the money was
+actually going. Here's what that involved:
+
+- **The source data:** every monthly statement's total charges, split into
+  electricity, natural gas, and other/fixed fees; how many kWh of
+  electricity and therms of gas were billed; the average outdoor temperature
+  Xcel reported for that billing period (this year and the same month a
+  year earlier); and how much electricity the solar array sent back to the
+  grid ("net metering" — see the dashboard's Energy tab for what that
+  means).
+- **What it showed:** heating with gas is, by a wide margin, this home's
+  real energy cost — electricity is nearly free after solar. Gas use tracks
+  outdoor temperature closely, with a clear "furnace-on" threshold around
+  55°F. And the effective price per therm of gas *looks* like it swings
+  wildly through the year, but that's a side effect of a flat monthly
+  service fee being spread across very different amounts of usage, not
+  Xcel raising or lowering its rate with the seasons.
+- **A couple of known quirks in the source data**, noted directly on the
+  relevant charts: one month's solar export figure looks unusually high and
+  is likely a meter-reading artifact, and one month combines two separate
+  meter readings around the annual solar credit reconciliation. Neither
+  changes the overall picture.
+- **Left for a future update:** lining up the 18 flagged low-solar-output
+  days from Part 1 against these monthly bills, to see whether any of them
+  show up as a dip in that month's solar export. The two datasets are at
+  different levels of detail (daily vs. monthly), so this would need a bit
+  more work to do well.
+
+---
+
 ## The interactive dashboard
 
-Hover over the charts below to see exact values for any day. If it looks
-cramped on your screen, use the link underneath to open it full-page.
+Two tabs, one dashboard: **Solar Performance** and **Energy Bills &
+Savings**. Hover over any chart to see exact values. If it looks cramped on
+your screen, use the link underneath to open it full-page.
 
-<iframe src="dashboard.html" style="width:100%; height:1400px; border:1px solid #ddd; border-radius:8px;" loading="lazy"></iframe>
+<iframe src="dashboard.html" style="width:100%; height:1700px; border:1px solid #ddd; border-radius:8px;" loading="lazy"></iframe>
 
 [Open the dashboard in its own tab →](dashboard.html){:target="_blank"}
 
@@ -171,6 +223,8 @@ cramped on your screen, use the link underneath to open it full-page.
 - **Solar position and output modeling** — [pvlib python](https://pvlib-python.readthedocs.io/), an open-source library co-developed with NREL/Sandia National Laboratories that implements the published PVWatts equations. Holmgren, W., Hansen, C., & Mikofski, M. (2018). pvlib python: a python package for modeling solar energy systems. *Journal of Open Source Software*, 3(29), 884.
 - **PVWatts model reference** — [PVWatts Calculator](https://pvwatts.nrel.gov/), National Renewable Energy Laboratory (NREL), U.S. Department of Energy.
 - **Historical weather / irradiance data** — [NASA POWER (Prediction Of Worldwide Energy Resources) Project](https://power.larc.nasa.gov/), NASA Langley Research Center, daily `ALLSKY_SFC_SW_DWN` and `CLRSKY_SFC_SW_DWN` parameters.
+- **Home energy bills** — 12 monthly electric + natural gas statements from
+  Xcel Energy, covering September 2025 through August 2026.
 - **Site coordinates** — approximate location, Denver, Colorado metro area.
 
 ## Authorship
@@ -180,6 +234,8 @@ and **Claude (Claude Sonnet 5)**, an AI model developed by
 [Anthropic](https://www.anthropic.com), acting as co-author — handling data
 processing, physical modeling, statistical analysis, visualization, and
 drafting, under the direction and domain knowledge (panel layout, system
-specifics, and corrections) of the site owner.
+specifics, billing details, and corrections) of the site owner. The solar
+performance analysis and the energy-bill analysis were done in separate
+working sessions and brought together on this page.
 
 *Last updated: September 2026.*
