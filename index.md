@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Allen & Beth's place - Energy! Making and Using!
+title: Allen & Beth's place - Energy production & usage!
 ---
 
 ## A year of solar production and home energy bills, checked against reality
@@ -42,9 +42,9 @@ how each half was built.
 
 ## Part 1: Solar performance — how the analysis was built, step by step
 
-You gave me one year of daily solar production numbers and asked how much of
-that was normal weather versus something worth checking on the roof. Here's
-exactly what was looked at, what was built, and what it showed — including
+One year of daily solar production numbers were provided and I asked 'Claude'
+"how much of that was normal weather versus something worth checking on the roof?"
+Here's exactly what was looked at, what was built, and what it showed — including
 the mistakes that were caught and fixed along the way.
 
 ### 1. What data was actually used
@@ -168,7 +168,7 @@ this.
 
 ## Part 2: Energy bills — how the analysis was built
 
-You also provided 12 months of Xcel Energy statements (electric + natural
+I (Allen) also provided 12 months of Xcel Energy statements (electric + natural
 gas, September 2025 through August 2026) and asked where the money was
 actually going. Here's what that involved:
 
