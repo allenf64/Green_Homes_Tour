@@ -229,8 +229,8 @@ your screen, use the link underneath to open it full-page.
 
 ## Authorship
 
-This analysis and write-up were produced collaboratively by the site owner
-and **Claude (Claude Sonnet 5)**, an AI model developed by
+This analysis and write-up were produced collaboratively by the site owner 
+(Allen) and **Claude (Claude Sonnet 5)**, an AI model developed by
 [Anthropic](https://www.anthropic.com), acting as co-author — handling data
 processing, physical modeling, statistical analysis, visualization, and
 drafting, under the direction and domain knowledge (panel layout, system
