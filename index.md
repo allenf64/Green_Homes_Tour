@@ -1,15 +1,15 @@
 ---
 layout: default
-title: Home
+title: Allen & Beth's place - Energy! Making and Using!
 ---
 
 ## A year of solar production and home energy bills, checked against reality
 
-This page covers two connected things for the same home in the Denver,
-Colorado metro area: a year of daily output from a 14-panel, 6.02 kW rooftop
-solar array — checked against the physics of where the sun actually was each
-day and NASA's satellite-measured weather — and a year of the actual utility
-bills that solar array helped shrink.
+Let's look at how we did over the past calendar year. We have a year's worth
+of daily output data from a 14-panel, 6.02 kW rooftop solar array — checked
+against the physics of where the sun actually was each day and NASA's
+satellite-measured weather — as well s a year of the actual utility bills that
+solar array helped shrink.
 
 The interactive dashboard below has two tabs: **Solar Performance** and
 **Energy Bills & Savings**. Everything on this page is written for a general
