@@ -28,9 +28,10 @@ reader — no engineering or utility-industry background assumed.
 
 - **78% of the year's entire energy bill ($629 of $803) was for natural gas
   heat** — electricity was nearly a non-issue, cost-wise.
-- **December + January alone were 31% of the annual bill** — the coldest
-  months, and the clearest target for any insulation or weatherization
-  investment.
+- **December + January alone were 31% of the annual bill (includes electricity & natural gas)**
+  — the coldest (and darkest) months, the clearest target for any 
+  insulation or weatherization investment as well as improvements in electrical
+  production and storage.
 - **The solar array covers virtually all of the home's own electricity use**
   — the most ever drawn from the grid in a single month was 93 kWh, against
   as much as 4,685 kWh sent back to the grid in a good month.
