@@ -65,7 +65,8 @@
 <div class="wrap">
   <div class="tabnav">
     <button class="tabbtn active" id="btn-solar" onclick="showTab('solar')">☀️ Solar Performance</button>
-    <button class="tabbtn" id="btn-energy" onclick="showTab('energy')">💵 Energy Bills &amp; Savings</button>
+    <button class="tabbtn" id="btn-energy" onclick="showTab('energy')">💵 Energy Bills &amp; Usage</button>
+    <button class="tabbtn" id="btn-savings" onclick="showTab('savings')">📈 Savings &amp; ROI</button>
   </div>
 
   <div id="tab-solar" class="tabpanel active">
@@ -118,16 +119,16 @@
 
   <div id="tab-energy" class="tabpanel">
   <header>
-    <p class="kicker">12 monthly Xcel Energy statements &middot; September 2025 &ndash; August 2026</p>
+    <p class="kicker">12 monthly Xcel Energy statements &middot; August 2025 &ndash; July 2026</p>
     <h1>Where the energy dollars actually go</h1>
     <p class="subtitle">Every charge from a full year of electric + natural gas bills, laid out month by month, next to how much of the home's own electricity came from the solar array above. No utility jargon required &mdash; quick terms are below if you want them.</p>
   </header>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="label">Total energy bill, 12 months</div><div class="value gold">$803.02</div><div class="sub">every Xcel charge, electric + gas</div></div>
-    <div class="kpi"><div class="label">Spent on gas heat</div><div class="value gold">$628.90</div><div class="sub">78% of the whole year's bill</div></div>
-    <div class="kpi"><div class="label">Spent on electricity + fees</div><div class="value green">$174.12</div><div class="sub">net of the August solar credit</div></div>
-    <div class="kpi"><div class="label">Most drawn from the grid</div><div class="value blue">93 kWh</div><div class="sub">in any single month &mdash; vs. up to 4,685 kWh sent back</div></div>
+    <div class="kpi"><div class="label">Total energy bill, 12 months</div><div class="value gold">$815.60</div><div class="sub">every Xcel charge, electric + gas</div></div>
+    <div class="kpi"><div class="label">Spent on gas heat</div><div class="value gold">$632.66</div><div class="sub">78% of the whole year's bill</div></div>
+    <div class="kpi"><div class="label">Spent on electricity + fees</div><div class="value green">$182.94</div><div class="sub">usage charges plus the flat monthly service fee</div></div>
+    <div class="kpi"><div class="label">Most drawn from the grid</div><div class="value blue">93 kWh</div><div class="sub">in any single month &mdash; vs. 400&ndash;740+ kWh produced most months</div></div>
   </div>
 
   <div class="note good">
@@ -135,7 +136,7 @@
   </div>
 
   <div class="note terms">
-    <strong>Quick terms, if you want them:</strong> a <b>kWh</b> (kilowatt-hour) is the unit your electric bill is measured in; a <b>therm</b> is the same idea for natural gas. <b>Net metering</b> means that when the solar panels make more power than the home is using at that moment, the extra gets sent back to the grid, and the utility credits it against the bill &mdash; usually settled up once a year, which is what causes the unusual-looking August number below.
+    <strong>Quick terms, if you want them:</strong> a <b>kWh</b> (kilowatt-hour) is the unit your electric bill is measured in; a <b>therm</b> is the same idea for natural gas. <b>Net metering</b> means that when the solar panels make more power than the home is using at that moment, the extra gets sent back to the grid, and the utility credits it against the bill &mdash; usually settled up once or twice a year.
   </div>
 
   <div class="panel">
@@ -146,7 +147,7 @@
 
   <div class="panel">
     <h2>What you're actually paying for: heat, not power</h2>
-    <p class="desc">Same monthly bills, split into two pieces: gas heating (amber) and everything electricity-related, including the flat monthly service fee (blue). The blue slice stays small all year &mdash; and shrinks even further in August, when a full year of extra solar power gets credited back to the bill.</p>
+    <p class="desc">Same monthly bills, split into two pieces: gas heating (amber) and everything electricity-related, including the flat monthly service fee (blue). The blue slice stays small all year &mdash; heating is by far the bigger cost every single month.</p>
     <div class="chart-box"><canvas id="componentChart"></canvas></div>
   </div>
 
@@ -157,10 +158,10 @@
   </div>
 
   <div class="panel">
-    <h2>Electricity made vs. electricity used</h2>
-    <p class="desc">Solar export (extra power sent back to the grid, green) against grid draw (power pulled from the grid, blue), by month. The two numbers are so different in size that this chart uses a <em>log scale</em> &mdash; every gridline up is 10&times; more, not just a fixed step. Every single month, far more went out than came in.</p>
+    <h2>Electricity made vs. electricity bought</h2>
+    <p class="desc">Solar produced (from the panels' own daily monitoring data, green) against electricity actually bought from the grid (from your Xcel bills, blue), by month. The two numbers are so different in size that this chart uses a <em>log scale</em> &mdash; every gridline up is 10&times; more, not just a fixed step. Every single month, the panels made far more than the home ever had to buy.</p>
     <div class="chart-box"><canvas id="solarGridChart"></canvas></div>
-    <p class="foot-asterisk">* January's export figure looks unusually high and may include a meter-reading glitch; August combines two separate meter readings tied to the annual solar credit. Neither changes the overall picture: this home is effectively electricity self-sufficient.</p>
+    <p class="foot-asterisk">* Your bills also list a "solar exported to grid" figure, but it's a running, cumulative meter reading, not a monthly number &mdash; see the Savings &amp; ROI tab for how that was tracked down and confirmed, and for the real month-by-month export figures.</p>
   </div>
 
   <div class="panel">
@@ -170,19 +171,56 @@
   </div>
   </div>
 
+  <div id="tab-savings" class="tabpanel">
+  <header>
+    <p class="kicker">LG ThinQ solar data, confirmed three ways &times; your Xcel rates</p>
+    <h1>What the solar panels are actually worth in dollars</h1>
+    <p class="subtitle">This tab turns the electricity your panels made and exported into a confirmed dollar value, month by month &mdash; useful for tracking return on investment. Read the note below first: it tells the story of a year-long data mystery about the export numbers, and how it finally got solved.</p>
+  </header>
 
-  <footer>NASA POWER (CERES SYN1deg) &middot; pvlib / PVWatts layout model &middot; Xcel Energy monthly statements &middot; Denver, CO metro area &middot; Sep 2025 &ndash; Aug 2026</footer>
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">Solar produced, 12 months</div><div class="value gold">6,919 kWh</div><div class="sub">confirmed by LG ThinQ, the physics model, and APsystems' own report</div></div>
+    <div class="kpi"><div class="label">Exported to the grid, 12 months</div><div class="value blue">3,932 kWh</div><div class="sub">now a confirmed monthly figure &mdash; see below for how</div></div>
+    <div class="kpi"><div class="label">Total confirmed savings</div><div class="value green">$356.91</div><div class="sub">self-used solar at $0.08/kWh + exports at $0.03/kWh</div></div>
+    <div class="kpi"><div class="label">Still bought from the grid</div><div class="value">485 kWh</div><div class="sub">across the whole year &mdash; already counted in the Energy Bills tab</div></div>
+  </div>
+
+  <div class="note good">
+    <strong>A data mystery, solved:</strong> for months, this tab showed a range instead of a real number, because Xcel's own "solar exported to the grid" figure on the monthly bill didn't line up with the physics-verified production data &mdash; some months showed more electricity "exported" than the panels could have possibly made. Three independent sources were cross-checked to track it down: the daily physics/weather model (Solar Performance tab), APsystems' own official monthly production report, and the LG ThinQ app that reads directly from the solar system's smart energy box. The breakthrough came from the first month's actual PDF bill after a new meter was installed: it proved that Xcel's "solar exported to grid" line is a running, cumulative meter reading &mdash; like a car's odometer &mdash; not a monthly figure. Once that was understood, the real monthly exports could be recovered, and they lined up with LG ThinQ's own monthly totals to within about 1%. This tab now uses those confirmed ThinQ numbers directly, month by month. The one remaining simplifying assumption: since the exact hour-by-hour split between "used in the home" and "sent to the grid" isn't available, electricity used directly in the home is valued at the $0.08/kWh off-peak rate &mdash; a conservative choice, since real savings are probably a bit higher.
+  </div>
+
+  <div class="panel">
+    <h2>Confirmed dollar value, by month</h2>
+    <p class="desc">Two stacked pieces per month: the value of solar used directly in the home (green, at your $0.08/kWh off-peak rate) and the value of solar exported to the grid (blue, at the $0.03/kWh buy-back rate).</p>
+    <div class="chart-box"><canvas id="savingsChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Running total for the year</h2>
+    <p class="desc">Combined self-use + export value, added up month after month &mdash; this is the number to watch for tracking progress toward paying back the system's cost.</p>
+    <div class="chart-box"><canvas id="cumSavingsChart"></canvas></div>
+  </div>
+  </div>
+
+
+  <footer>NASA POWER (CERES SYN1deg) &middot; pvlib / PVWatts layout model &middot; Xcel Energy monthly statements &middot; Denver, CO metro area &middot; Aug 2025 &ndash; Jul 2026</footer>
 </div>
 
 <script>
 function showTab(name) {
   document.getElementById('tab-solar').classList.toggle('active', name === 'solar');
   document.getElementById('tab-energy').classList.toggle('active', name === 'energy');
+  document.getElementById('tab-savings').classList.toggle('active', name === 'savings');
   document.getElementById('btn-solar').classList.toggle('active', name === 'solar');
   document.getElementById('btn-energy').classList.toggle('active', name === 'energy');
+  document.getElementById('btn-savings').classList.toggle('active', name === 'savings');
   if (name === 'energy' && !window._energyInited) {
     window._energyInited = true;
     initEnergyCharts();
+  }
+  if (name === 'savings' && !window._savingsInited) {
+    window._savingsInited = true;
+    initSavingsCharts();
   }
 }
 
@@ -220,7 +258,7 @@ pr.filter(d=>d.pr_z!==null && d.pr_z<-2.0).sort((a,b)=>a.pr_z-b.pr_z).forEach(a=
 }
 initSolarCharts();
 
-const energyData = {"labels": ["Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026"], "total_bill": [38.95, 51.54, 73.97, 115.56, 137.18, 106.97, 73.14, 57.97, 53.05, 34.45, 34.74, 25.5], "gas_cost": [22.54, 35.71, 58.34, 100.97, 122.35, 92.47, 58.32, 43.23, 38.33, 19.26, 19.47, 17.91], "elec_other": [16.41, 15.83, 15.63, 14.59, 14.83, 14.5, 14.82, 14.74, 14.72, 15.19, 15.27, 7.59], "gas_therms": [11.0, 26.0, 52.0, 101.0, 122.0, 88.0, 50.0, 40.0, 34.0, 8.0, 8.0, 6.0], "temp_this": [67.0, 60.0, 52.0, 43.0, 39.0, 44.0, 54.0, 54.0, 56.0, 69.0, 78.0, 77.0], "temp_last": [70.0, 64.0, 45.0, 42.0, 30.0, 33.0, 47.0, 49.0, 57.0, 68.0, 75.0, 76.0], "gas_thd_this": [0.4, 0.9, 1.8, 3.1, 3.6, 2.9, 1.7, 1.3, 1.1, 0.3, 0.3, 0.2], "gas_thd_last": [0.4, 0.7, 2.6, 3.3, 4.8, 4.3, 2.5, 2.2, 1.1, 0.6, 0.3, 0.3], "solar_export_kwh": [2165.0, 2447.0, 2650.0, 3136.0, 3268.0, 283.0, 596.0, 977.0, 1339.0, 1786.0, 2191.0, 4685.0], "grid_kwh": [22.0, 23.0, 22.0, 85.0, 74.0, 35.0, 38.0, 28.0, 28.0, 27.0, 93.0, 81.0], "cost_per_therm": [2.049, 1.373, 1.122, 1.0, 1.003, 1.051, 1.166, 1.081, 1.127, 2.408, 2.434, 2.985], "elec_kwh": [22.0, 23.0, 22.0, 85.0, 74.0, 35.0, 38.0, 28.0, 28.0, 27.0, 93.0, 81.0]};
+const energyData = {"labels": ["Aug 2025", "Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026"], "total_bill": [38.08, 38.95, 51.54, 73.97, 115.56, 137.18, 106.97, 73.14, 57.97, 53.05, 34.45, 34.74], "gas_cost": [21.67, 22.54, 35.71, 58.34, 100.97, 122.35, 92.47, 58.32, 43.23, 38.33, 19.26, 19.47], "elec_other": [16.41, 16.41, 15.83, 15.63, 14.59, 14.83, 14.5, 14.82, 14.74, 14.72, 15.19, 15.27], "gas_therms": [10.0, 11.0, 26.0, 52.0, 101.0, 122.0, 88.0, 50.0, 40.0, 34.0, 8.0, 8.0], "temp_this": [76.0, 67.0, 60.0, 52.0, 43.0, 39.0, 44.0, 54.0, 54.0, 56.0, 69.0, 78.0], "temp_last": [76.0, 70.0, 64.0, 45.0, 42.0, 30.0, 33.0, 47.0, 49.0, 57.0, 68.0, 75.0], "gas_thd_this": [0.3, 0.4, 0.9, 1.8, 3.1, 3.6, 2.9, 1.7, 1.3, 1.1, 0.3, 0.3], "gas_thd_last": [0.4, 0.4, 0.7, 2.6, 3.3, 4.8, 4.3, 2.5, 2.2, 1.1, 0.6, 0.3], "grid_kwh": [15.0, 22.0, 23.0, 22.0, 85.0, 74.0, 35.0, 38.0, 28.0, 28.0, 27.0, 93.0], "cost_per_therm": [2.167, 2.049, 1.373, 1.122, 1.0, 1.003, 1.051, 1.166, 1.081, 1.127, 2.408, 2.434], "elec_kwh": [15.0, 22.0, 23.0, 22.0, 85.0, 74.0, 35.0, 38.0, 28.0, 28.0, 27.0, 93.0]};
 
 function initEnergyCharts() {
   const ed = energyData;
@@ -278,8 +316,8 @@ function initEnergyCharts() {
   new Chart(document.getElementById('solarGridChart').getContext('2d'), {
     type: 'bar',
     data: { labels: ed.labels, datasets: [
-      { label: 'Solar exported to grid (kWh)', data: ed.solar_export_kwh, backgroundColor: 'rgba(111,191,139,0.75)' },
-      { label: 'Drawn from grid (kWh)', data: ed.grid_kwh, backgroundColor: 'rgba(90,169,230,0.85)' }
+      { label: 'Solar produced (kWh)', data: savingsData.production_kwh, backgroundColor: 'rgba(111,191,139,0.75)' },
+      { label: 'Bought from grid (kWh)', data: ed.grid_kwh, backgroundColor: 'rgba(90,169,230,0.85)' }
     ] },
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 12, padding: 14 } },
@@ -302,6 +340,44 @@ function initEnergyCharts() {
           callbacks: { label: (c) => '$' + c.parsed.y.toFixed(2) + ' / therm' } } },
       scales: { x: { grid: { color: gridColor } },
         y: { grid: { color: gridColor }, title: { display: true, text: '$ / therm (effective)' } } } }
+  });
+}
+
+const savingsData = {"labels": ["Aug 2025", "Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026"], "production_kwh": [613.5, 584.0, 573.9, 454.9, 401.4, 445.3, 532.6, 582.5, 632.3, 644.5, 741.5, 712.7], "export_kwh": [288.0, 346.2, 294.2, 187.3, 165.8, 211.5, 306.6, 356.8, 395.1, 429.5, 500.6, 450.7], "grid_kwh": [15.3, 20.0, 22.4, 32.3, 74.0, 70.4, 29.1, 36.4, 25.4, 29.8, 27.1, 102.9], "self_kwh": [325.5, 237.8, 279.7, 267.6, 235.6, 233.8, 226.0, 225.7, 237.2, 215.0, 240.9, 262.0], "self_value": [26.04, 19.02, 22.38, 21.41, 18.85, 18.7, 18.08, 18.06, 18.98, 17.2, 19.27, 20.96], "export_value": [8.64, 10.39, 8.83, 5.62, 4.97, 6.34, 9.2, 10.7, 11.85, 12.88, 15.02, 13.52], "monthly_savings": [34.68, 29.41, 31.21, 27.03, 23.82, 25.04, 27.28, 28.76, 30.83, 30.08, 34.29, 34.48], "cum_savings": [34.68, 64.09, 95.3, 122.33, 146.15, 171.19, 198.47, 227.23, 258.06, 288.14, 322.43, 356.91]};
+
+function initSavingsCharts() {
+  const sd = savingsData;
+  Chart.defaults.color = '#8b97b5';
+  Chart.defaults.font.family = "'Segoe UI', sans-serif";
+  Chart.defaults.font.size = 11.5;
+  const gridColor = '#1e2a45';
+
+  new Chart(document.getElementById('savingsChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: sd.labels, datasets: [
+      { label: 'Used in the home ($0.08/kWh off-peak)', data: sd.self_value, backgroundColor: 'rgba(111,191,139,0.75)', stack: 's' },
+      { label: 'Exported to the grid ($0.03/kWh buy-back)', data: sd.export_value, backgroundColor: 'rgba(90,169,230,0.75)', stack: 's' }
+    ] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 12, padding: 14 } },
+        tooltip: { backgroundColor: '#1c2740', borderColor: '#253150', borderWidth: 1, padding: 10,
+          callbacks: { label: (c) => c.dataset.label + ': $' + c.parsed.y.toFixed(2) } } },
+      scales: { x: { stacked: true, grid: { color: gridColor } },
+        y: { stacked: true, grid: { color: gridColor }, beginAtZero: true, title: { display: true, text: 'Confirmed $ / month' } } } }
+  });
+
+  new Chart(document.getElementById('cumSavingsChart').getContext('2d'), {
+    type: 'line',
+    data: { labels: sd.labels, datasets: [
+      { label: 'Cumulative confirmed savings', data: sd.cum_savings, borderColor: '#6fbf8b',
+        backgroundColor: 'rgba(111,191,139,0.15)', borderWidth: 2.4, pointRadius: 3, tension: 0.2, fill: true }
+    ] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { backgroundColor: '#1c2740', borderColor: '#253150', borderWidth: 1, padding: 10,
+          callbacks: { label: (c) => c.dataset.label + ': $' + c.parsed.y.toFixed(2) } } },
+      scales: { x: { grid: { color: gridColor } },
+        y: { grid: { color: gridColor }, beginAtZero: true, title: { display: true, text: 'Cumulative $, year to date' } } } }
   });
 }
 </script>

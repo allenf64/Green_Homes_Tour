@@ -11,9 +11,10 @@ physics of where the sun actually was each day and NASA's satellite-measured
 weather — as well as a year of the actual utility bills that
 solar array helped shrink.
 
-The interactive dashboard below has two tabs: **Solar Performance** and
-**Energy Bills & Savings**. Everything on this page is written for a general
-reader — no engineering or utility-industry background assumed.
+The interactive dashboard below has three tabs: **Solar Performance**,
+**Energy Bills & Usage**, and **Savings & ROI**. Everything on this page is
+written for a general reader — no engineering or utility-industry background
+assumed.
 
 ### The short version
 
@@ -26,18 +27,26 @@ reader — no engineering or utility-industry background assumed.
 
 **Energy bills:**
 
-- **78% of the year's entire energy bill ($629 of $803) was for natural gas
+- **78% of the year's entire energy bill ($633 of $816) was for natural gas
   heat** — electricity was nearly a non-issue, cost-wise.
-- **December + January alone were 31% of the annual bill (includes electricity & natural gas)**
-  — the coldest (and darkest) months, the clearest target for any 
-  insulation or weatherization investment as well as improvements in electrical
-  production and storage.
+- **December + January alone were 31% of the annual bill ($253 of $816,
+  electricity & natural gas combined)** — the coldest (and darkest) months,
+  the clearest target for any insulation or weatherization investment as well
+  as improvements in electrical production and storage.
 - **The solar array covers virtually all of the home's own electricity use**
   — the most ever drawn from the grid in a single month was 93 kWh, against
-  as much as 4,685 kWh sent back to the grid in a good month.
+  as much as 500 kWh sent back to the grid in the best month.
+
+**Savings & ROI:**
+
+- **The panels made 6,919 kWh over the year**, worth an estimated **$356.91**
+  in savings — more than double the $153.69 actually paid for electricity
+  after solar credits. See Part 3 below for how a real data problem in the
+  export numbers was tracked down and solved before this figure could be
+  trusted.
 
 The full interactive dashboard is embedded further down this page. Here's
-how each half was built.
+how each part was built.
 
 ---
 
@@ -81,16 +90,38 @@ calculator, PVWatts.
 
 - For every 15 minutes of every day of the year, the model calculates
   exactly where the sun is in the sky above Denver (its height and compass
-  direction).
+  direction) and how much sunlight would reach the ground on a perfectly
+  clear day. To be clear, "15 minutes" describes how often the model
+  recalculates the sun's position and clear-sky irradiance — it isn't a
+  separate 15-minute weather feed; the underlying weather data (see NASA's
+  dataset above) is daily.
 - It then calculates how much sunlight would hit each of the four panel
   groups (south roof, west roof, east roof, and the vertical wall) at that
   exact moment, given each one's specific tilt and compass direction.
 - It converts that sunlight into expected electrical output, using each
   group's real wattage (for example, the south roof's 7 panels totaling
-  3,010 watts), and adjusts slightly for how heat affects panel efficiency.
+  3,010 watts), and adjusts for how heat affects panel efficiency — the
+  same two-step approach PVWatts itself uses: estimate the panel's own
+  cell temperature from air temperature, wind speed, and how much sunlight
+  is hitting it, then reduce output by 0.47% for every degree Celsius that
+  cell runs above 25°C (PVWatts' own standard coefficient for
+  crystalline-silicon panels like these).
 - Adding up all four groups, for every day of the year, gives one number:
   the maximum the system could have produced that day under a perfectly
   clear sky — the **clear-sky ceiling**.
+
+**A known limitation, caught by a reviewer:** Tim Olsen, PE (Advanced
+Energy Systems LLC), the system's engineer, asked a sharp question about
+this while reviewing the analysis ahead of a home tour — and it's a fair
+catch. The temperature physics above
+is real, but the air-temperature input feeding it isn't a daily or hourly
+reading; it's a fixed monthly average applied to every day in that month,
+with wind speed held at a flat 1 m/s year-round. That's a reasonable
+simplification most of the time, but it means a single hot outlier day
+inside an otherwise mild month — one running well above that month's
+average — would get under-derated, since the model only ever sees the
+month's average temperature, never that specific day's actual peak. Worth
+keeping in mind when reading the day-by-day results below.
 
 ### 3. Checking the work along the way
 
@@ -169,8 +200,8 @@ this.
 
 ## Part 2: Energy bills — how the analysis was built
 
-I (Allen) also provided 12 months of Xcel Energy statements (electric + natural
-gas, September 2025 through August 2026) and asked where the money was
+I (Allen) also provided 12 months of Xcel Energy statements (electric +
+natural gas, August 2025 through July 2026) and asked where the money was
 actually going. Here's what that involved:
 
 - **The source data:** every monthly statement's total charges, split into
@@ -187,26 +218,106 @@ actually going. Here's what that involved:
   wildly through the year, but that's a side effect of a flat monthly
   service fee being spread across very different amounts of usage, not
   Xcel raising or lowering its rate with the seasons.
-- **A couple of known quirks in the source data**, noted directly on the
-  relevant charts: one month's solar export figure looks unusually high and
-  is likely a meter-reading artifact, and one month combines two separate
-  meter readings around the annual solar credit reconciliation. Neither
-  changes the overall picture.
+- **A real data-quality problem, found and fully solved:** the bills'
+  monthly "solar exported to grid" figures didn't hold up against the
+  physics-verified daily production numbers from Part 1 — most months
+  showed more electricity "exported" than the panels could have possibly
+  produced, by as much as 13 times in the worst month. Rather than paper
+  over it, I asked Claude to get to the bottom of it. Part 3 below walks
+  through how that was solved, using three independent sources and, in the
+  end, the bill's own fine print.
 - **Left for a future update:** lining up the 18 flagged low-solar-output
   days from Part 1 against these monthly bills, to see whether any of them
-  show up as a dip in that month's solar export. The two datasets are at
-  different levels of detail (daily vs. monthly), so this would need a bit
-  more work to do well.
+  show up as a dip in that month's electricity bought from the grid. The
+  two datasets are at different levels of detail (daily vs. monthly), so
+  this would need a bit more work to do well.
+
+---
+
+## Part 3: Savings & ROI — solving a data mystery, then answering "was this worth it"
+
+I asked for a chart of dollars saved per month, to help answer "was this
+worth it" questions. Building it surfaced a real problem with the source
+data — and chasing that problem down turned into its own small
+investigation.
+
+### The problem
+
+The plan was simple: subtract the monthly "solar exported to grid" figure
+printed on the Xcel bill from the monthly production total to get how much
+solar was used directly in the home, then value the home-used portion at
+the retail rate and the exported portion at the $0.03/kWh buy-back rate.
+That plan hit a wall immediately: the two numbers didn't agree. Production
+for one month, for example, totaled around 580 kWh — but the bill listed
+over 2,100 kWh "exported" that same month. A system that tops out well
+under 30 kWh on its best single day cannot export more than three times its
+own monthly output. This wasn't a one-month fluke: the same impossible
+pattern showed up in nearly every month, sometimes far worse.
+
+### Tracking it down
+
+Rather than quietly work around it, I asked Claude to actually solve it.
+That meant lining up three independent ways of measuring the same
+electricity:
+
+- **LG ThinQ**, the app for the home's battery system (an LG ESS Home 5/8),
+  which independently reports solar production, home usage, and what went
+  to and from the grid, month by month.
+- **The physics-based production model** from Part 1, cross-checked against
+  APsystems' own official monthly energy report.
+- **Xcel's own numbers** — both the PDF bills and, later, a real usage
+  export pulled directly from the Xcel online account.
+
+Checked one month at a time — July 2026, then August 2026, then September
+2025, then the rest of the year once a full year of ThinQ data was gathered
+— production and grid purchases agreed closely across every source, every
+month. Only the "exported to grid" figure from the PDF bills kept coming
+back wrong, by anywhere from about 5 times too high to more than 13 times
+too high, with no single event that could explain all of it.
+
+### What it turned out to be
+
+The answer came from the very first Xcel bill of the year, for August
+2025 — coincidentally the bill for a newly-installed meter. Because that
+meter had no billing history yet, the bill showed its internal fields laid
+completely bare: a field literally named **"Net Generated by Customer,"**
+logged as a running total with nothing subtracted from it yet, sitting
+right next to a separate, correctly-scoped field called **"Total Delivered
+by Customer"** for that one billing cycle alone. Whoever (or whatever
+process) had been pulling "solar exported to grid" out of the bills all
+year had been reading the wrong one of those two fields every time — a
+running lifetime counter that only resets during Xcel's twice-yearly
+billing reconciliation, mistaken for a single month's number.
+
+Once that was understood, the fix was straightforward: use each month's
+actual change in that running counter instead of its raw value. Those
+month-over-month differences land within the same ordinary 5–15% noise as
+everything else in this analysis, matching ThinQ closely in every month
+that isn't distorted by a documented one-off billing glitch.
+
+### The bottom line
+
+With the export numbers now resolved and cross-checked, this page uses LG
+ThinQ's readings as the primary source for solar production, home usage,
+and grid exchange, backed up by the physics model and the real bills.
+Valuing the home-used portion of solar at the conservative off-peak rate
+($0.08/kWh) and the exported portion at the $0.03/kWh buy-back rate gives
+an estimated **$356.91 in savings over the year** — more than double the
+$153.69 actually paid for electricity after solar credits. Because the
+home-used portion is valued at the cheaper off-peak rate as a simplifying,
+conservative assumption, the real savings are probably a bit higher than
+that.
 
 ---
 
 ## The interactive dashboard
 
-Two tabs, one dashboard: **Solar Performance** and **Energy Bills &
-Savings**. Hover over any chart to see exact values. If it looks cramped on
-your screen, use the link underneath to open it full-page.
+Three tabs, one dashboard: **Solar Performance**, **Energy Bills & Usage**,
+and **Savings & ROI**. Hover over any chart to see exact values. If it
+looks cramped on your screen, use the link underneath to open it
+full-page.
 
-<iframe src="dashboard.html" style="width:100%; height:1700px; border:1px solid #ddd; border-radius:8px;" loading="lazy"></iframe>
+<iframe src="dashboard.html" style="width:100%; height:1900px; border:1px solid #ddd; border-radius:8px;" loading="lazy"></iframe>
 
 [Open the dashboard in its own tab →](dashboard.html){:target="_blank"}
 
@@ -217,6 +328,9 @@ your screen, use the link underneath to open it full-page.
 - **Daily production data** — exported from the site owner's solar
   monitoring platform (APsystems EMA), covering September 8, 2025 through
   September 8, 2026.
+- **APsystems' own 2025 monthly energy report** — used to confirm the daily
+  model's monthly totals and to fill in August 2025, the one month not
+  covered by the daily export above.
 - **Panel layout** — hand-drawn diagram and site photo provided by the site
   owner, listing panel brand, wattage, and roof orientation for all 14
   panels.
@@ -225,18 +339,28 @@ your screen, use the link underneath to open it full-page.
 - **PVWatts model reference** — [PVWatts Calculator](https://pvwatts.nrel.gov/), National Renewable Energy Laboratory (NREL), U.S. Department of Energy.
 - **Historical weather / irradiance data** — [NASA POWER (Prediction Of Worldwide Energy Resources) Project](https://power.larc.nasa.gov/), NASA Langley Research Center, daily `ALLSKY_SFC_SW_DWN` and `CLRSKY_SFC_SW_DWN` parameters.
 - **Home energy bills** — 12 monthly electric + natural gas statements from
-  Xcel Energy, covering September 2025 through August 2026.
+  Xcel Energy, covering August 2025 through July 2026.
+- **LG ThinQ app / LG ESS Home 5/8 Smart Energy Box** — monthly readings of
+  solar production, home usage, and grid import/export from the home's
+  battery storage system, used as the primary confirmed source for those
+  figures throughout the dashboard.
+- **Xcel Energy online account usage export** — a real, direct-from-account
+  export used to independently check the bills' export figures.
+- **Electricity rates** — on-peak ($0.21/kWh), off-peak ($0.08/kWh), and
+  solar buy-back ($0.03/kWh), as provided by the site owner from their
+  Xcel rate plan.
 - **Site coordinates** — approximate location, Denver, Colorado metro area.
 
 ## Authorship
 
-This analysis and write-up were produced collaboratively by the site owner 
+This analysis and write-up were produced collaboratively by the site owner
 (Allen) and **Claude (Claude Sonnet 5)**, an AI model developed by
 [Anthropic](https://www.anthropic.com), acting as co-author — handling data
 processing, physical modeling, statistical analysis, visualization, and
 drafting, under the direction and domain knowledge (panel layout, system
 specifics, billing details, and corrections) of the site owner. The solar
-performance analysis and the energy-bill analysis were done in separate
-working sessions and brought together on this page.
+performance analysis, the energy-bill analysis, and the data-quality
+investigation behind the export numbers were done across separate working
+sessions and brought together on this page.
 
 *Last updated: September 2026.*
