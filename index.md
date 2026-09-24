@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Allen & Beth's place - Energy production & usage!
+title: Allen & Beth's place - Energy production & usage (Green Homes Tour 26')!
 ---
 
 ## A year of solar production and home energy bills, checked against reality
 
-Let's look at how we did over the past year. We have a year's worth of daily
+Let's look at how we did this past year. We have a year's worth of daily
 output data from a 14-panel, 6.02 kW rooftop solar array — checked against the
 physics of where the sun actually was each day and NASA's satellite-measured
 weather — as well as a year of the actual utility bills that
