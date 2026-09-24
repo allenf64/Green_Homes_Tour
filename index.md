@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Allen & Beth's place - Energy production & usage (Green Homes Tour 26')!
+title: Green Homes Tour 26' - Energy production & usage (Allen & Beth's place)!
 ---
 
 ## A year of solar production and home energy bills, checked against reality
