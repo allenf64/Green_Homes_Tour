@@ -111,17 +111,16 @@ calculator, PVWatts.
   clear sky — the **clear-sky ceiling**.
 
 **A known limitation, caught by a reviewer:** Tim Olsen, PE (Advanced
-Energy Systems LLC), the system's engineer, asked a sharp question about
-this while reviewing the analysis ahead of a home tour — and it's a fair
-catch. The temperature physics above
-is real, but the air-temperature input feeding it isn't a daily or hourly
-reading; it's a fixed monthly average applied to every day in that month,
-with wind speed held at a flat 1 m/s year-round. That's a reasonable
-simplification most of the time, but it means a single hot outlier day
-inside an otherwise mild month — one running well above that month's
-average — would get under-derated, since the model only ever sees the
-month's average temperature, never that specific day's actual peak. Worth
-keeping in mind when reading the day-by-day results below.
+Energy Systems LLC), the system's engineer, asked a good question while 
+reviewing the analysis ahead of the home tour — and it's a fair catch. 
+The temperature physics above is real, but the air-temperature input 
+feeding it isn't a daily or hourly reading; it's a fixed monthly average 
+applied to every day in that month, with wind speed held at a flat 1 m/s 
+year-round. That's a reasonable simplification most of the time, but it 
+means a single hot outlier day inside an otherwise mild month — one running 
+well above that month's average — would get under-derated, since the model 
+only ever sees the month's average temperature, never that specific day's 
+actual peak. Worth keeping in mind when reading the day-by-day results below.
 
 ### 3. Checking the work along the way
 
